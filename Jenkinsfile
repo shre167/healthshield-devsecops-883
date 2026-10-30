@@ -26,13 +26,13 @@ pipeline {
 
         stage('Python Syntax Check') {
             steps {
-                sh 'python3 -m py_compile app.py'
+                sh '.venv/bin/python -m py_compile app.py'
             }
         }
 
         stage('Docker Build') {
             steps {
-                sh 'sudo docker build -t healthcare-demo:${BUILD_NUMBER} .'
+                sh 'docker build -t healthcare-demo:${BUILD_NUMBER} .'
             }
         }
     }
