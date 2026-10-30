@@ -35,6 +35,19 @@ pipeline {
                 sh 'docker build -t healthcare-demo:${BUILD_NUMBER} .'
             }
         }
+
+        stage('Trivy Image Scan') {
+            steps {
+                sh '''
+                    trivy image \
+                    --scanners vuln \
+                    --severity HIGH,CRITICAL \
+                    --ignore-unfixed \
+                    --exit-code 1 \
+                    healthcare-demo:${BUILD_NUMBER}
+                '''
+            }
+        }
     }
 
     post {
